@@ -6,6 +6,11 @@ on:
     tags: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Publish a GitHub Release under this tag (e.g. v1.0.0). Leave empty to just build the APKs.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -102,10 +107,19 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Attach APKs to the release
-        if: startsWith(github.ref, 'refs/tags/v')
+      # Publishing happens either from a v* tag or from a manual run that names
+      # a tag; the action creates the tag at this commit when it does not exist.
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.release_tag != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event.inputs.release_tag || github.ref_name }}
+          name: Maktabate ${{ github.event.inputs.release_tag || github.ref_name }}
+          body: |
+            قارئ كتب Maktabate — مكتبة ثلاثية الأبعاد تحاكي رفوف المكتبة الواقعية.
+
+            - `Maktabate-debug.apk` — ثبّته مباشرة على هاتفك.
+            - `Maktabate-release.apk` — نسخة الإصدار، موقّعة.
           files: |
             Maktabate-debug.apk
             Maktabate-release.apk
