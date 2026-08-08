@@ -1,0 +1,907 @@
+/* ------------------------------------------------------------------
+   Library: wooden shelves, 3D books, cover grid, book detail stage
+------------------------------------------------------------------ */
+
+.library {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgb(255 210 150 / 0.09), transparent 60%),
+    linear-gradient(180deg, var(--bg-deep), var(--bg));
+}
+
+/* ------------------------------------------------------------ header */
+
+.lib-header {
+  flex: none;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 82%, black 18%);
+  backdrop-filter: blur(12px);
+  z-index: 30;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-size: 18px;
+}
+
+.brand .mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(150deg, var(--accent-soft), var(--accent));
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 14px rgb(194 112 58 / 0.4);
+}
+
+.brand .mark svg {
+  width: 18px;
+  height: 18px;
+  stroke: #2a1408;
+  fill: none;
+  stroke-width: 1.9;
+}
+
+.brand small {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+.lib-search {
+  position: relative;
+  flex: 1;
+  max-width: 420px;
+}
+
+.lib-search input {
+  padding-inline-start: 38px;
+  border-radius: 99px;
+  height: 38px;
+}
+
+.lib-search svg {
+  position: absolute;
+  inset-inline-start: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  stroke: var(--muted);
+  fill: none;
+  stroke-width: 1.8;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- body */
+
+.lib-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.lib-side {
+  flex: none;
+  width: 220px;
+  border-inline-end: 1px solid var(--line);
+  padding: 16px 12px;
+  overflow: auto;
+  background: rgb(0 0 0 / 0.14);
+}
+
+.lib-side .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 11px;
+  color: var(--muted);
+  font-size: 14px;
+  transition: all 0.15s var(--ease);
+  text-align: start;
+}
+
+.lib-side .nav-item:hover {
+  background: rgb(255 255 255 / 0.06);
+  color: var(--ink);
+}
+
+.lib-side .nav-item.active {
+  background: linear-gradient(90deg, rgb(194 112 58 / 0.22), transparent);
+  color: var(--accent-soft);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+:root[dir='rtl'] .lib-side .nav-item.active {
+  box-shadow: inset -2px 0 0 var(--accent);
+}
+
+.lib-side .nav-item .count {
+  margin-inline-start: auto;
+  font-size: 11.5px;
+  opacity: 0.7;
+}
+
+.lib-side .nav-item svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  flex: none;
+}
+
+.lib-main {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.lib-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px 6px;
+  flex-wrap: wrap;
+}
+
+.lib-toolbar h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.lib-toolbar .count-pill {
+  font-size: 12px;
+  color: var(--muted);
+  background: rgb(255 255 255 / 0.06);
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+
+/* ------------------------------------------------- continue reading */
+
+.continue-strip {
+  padding: 8px 22px 4px;
+}
+
+.continue-card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  border-radius: var(--radius-l);
+  background: linear-gradient(120deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.02));
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.continue-card:hover {
+  transform: translateY(-2px);
+  border-color: rgb(194 112 58 / 0.5);
+}
+
+.continue-card img {
+  width: 56px;
+  height: 82px;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: var(--shadow-1);
+  flex: none;
+}
+
+.continue-card .meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.continue-card .meta h3 {
+  margin: 0 0 2px;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------------------------------------------------------- shelves */
+
+.shelves {
+  padding: 10px 22px 60px;
+}
+
+.shelf {
+  position: relative;
+  margin-bottom: 26px;
+  /* A long perspective keeps the depth cue while stopping books far from the
+     centre from projecting sideways over their neighbours. */
+  perspective: 3200px;
+  perspective-origin: 50% 40%;
+}
+
+.shelf-label {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  padding-inline-start: 6px;
+}
+
+.shelf-books {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  min-height: 240px;
+  padding: 0 26px;
+  transform-style: preserve-3d;
+}
+
+/* The wooden plank the books stand on. */
+.shelf-plank {
+  height: 26px;
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, #7a5030 0%, #603c22 26%, #4a2d18 60%, #33200f 100%);
+  box-shadow:
+    0 -10px 26px rgb(0 0 0 / 0.42) inset,
+    0 16px 26px rgb(0 0 0 / 0.5),
+    0 2px 0 rgb(255 220 170 / 0.16) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.shelf-plank::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.32;
+  background: repeating-linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0.05) 0 2px,
+      transparent 2px 7px
+    ),
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.13) 0 1px, transparent 1px 26px);
+}
+
+.shelf-plank::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 5px;
+  background: linear-gradient(180deg, rgb(255 226 187 / 0.28), transparent);
+}
+
+/* Soft contact shadow between books and plank. */
+.shelf-shadow {
+  height: 0;
+  position: relative;
+}
+
+.shelf-shadow::before {
+  content: '';
+  position: absolute;
+  inset-inline: 34px;
+  bottom: -2px;
+  height: 22px;
+  background: radial-gradient(60% 100% at 50% 0%, rgb(0 0 0 / 0.55), transparent 75%);
+  filter: blur(5px);
+}
+
+/* --------------------------------------------------------- 3D book */
+
+.slot {
+  position: relative;
+  width: var(--d);
+  height: var(--h);
+  flex: none;
+  transform-style: preserve-3d;
+}
+
+.book3d {
+  position: absolute;
+  top: 0;
+  left: calc((var(--d) - var(--w)) / 2);
+  width: var(--w);
+  height: var(--h);
+  transform-style: preserve-3d;
+  transform: rotateY(90deg);
+  transition: transform 0.55s var(--ease), filter 0.35s var(--ease);
+  cursor: pointer;
+}
+
+.slot:hover .book3d {
+  transform: translateZ(26px) translateY(-10px) rotateY(78deg);
+  filter: brightness(1.12);
+}
+
+.slot.leaning .book3d {
+  transform: rotateY(90deg) rotateZ(var(--lean, 0deg));
+  transform-origin: bottom center;
+}
+
+.slot.leaning:hover .book3d {
+  transform: translateZ(26px) translateY(-10px) rotateY(78deg) rotateZ(var(--lean, 0deg));
+}
+
+.slot.picked .book3d {
+  opacity: 0;
+  transition: opacity 0.18s linear;
+}
+
+.face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/* Only the spine is clickable on a shelved book: the other faces project over
+   neighbouring slots and would otherwise swallow their clicks. */
+.slot .face {
+  pointer-events: none;
+}
+
+.slot .face.spine {
+  pointer-events: auto;
+}
+
+.face.front,
+.face.back {
+  width: var(--w);
+  height: var(--h);
+  border-radius: 2px 5px 5px 2px;
+}
+
+.face.front {
+  transform: translateZ(calc(var(--d) / 2));
+  background: var(--spine-base);
+  box-shadow: inset 0 0 60px rgb(0 0 0 / 0.35);
+}
+
+.face.front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.face.front::after {
+  /* glossy sheen */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgb(255 255 255 / 0.22) 0%, transparent 32%, transparent 66%, rgb(0 0 0 / 0.22) 100%);
+  pointer-events: none;
+}
+
+.face.back {
+  transform: rotateY(180deg) translateZ(calc(var(--d) / 2));
+  background: linear-gradient(160deg, var(--spine-light), var(--spine-dark));
+  box-shadow: inset 0 0 50px rgb(0 0 0 / 0.4);
+}
+
+.face.spine,
+.face.edge {
+  width: var(--d);
+  height: var(--h);
+  left: calc((var(--w) - var(--d)) / 2);
+}
+
+.face.spine {
+  transform: rotateY(-90deg) translateZ(calc(var(--w) / 2));
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.36) 0%, transparent 16%, transparent 78%, rgb(0 0 0 / 0.34) 100%),
+    linear-gradient(180deg, var(--spine-light), var(--spine-base) 40%, var(--spine-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+/* Foil bands near the top and bottom of the spine. */
+.face.spine::before,
+.face.spine::after {
+  content: '';
+  position: absolute;
+  inset-inline: 14%;
+  height: 1.5px;
+  background: var(--spine-foil);
+  opacity: 0.62;
+}
+
+.face.spine::before { top: 9%; box-shadow: 0 5px 0 -1px var(--spine-foil); }
+.face.spine::after { bottom: 9%; box-shadow: 0 -5px 0 -1px var(--spine-foil); }
+
+.spine-text {
+  position: absolute;
+  width: calc(var(--h) - 46px);
+  text-align: center;
+  transform: rotate(90deg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--spine-ink);
+  font-size: clamp(9px, calc(var(--d) * 0.34), 15px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 1px rgb(0 0 0 / 0.35);
+  pointer-events: none;
+}
+
+.spine-text.rtl {
+  transform: rotate(-90deg);
+}
+
+.spine-author {
+  position: absolute;
+  bottom: 16%;
+  width: calc(var(--h) - 46px);
+  text-align: center;
+  transform: rotate(90deg) translateY(0);
+  transform-origin: center;
+  font-size: 9px;
+  color: var(--spine-ink);
+  opacity: 0.62;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Page block seen from the fore-edge. */
+.face.edge {
+  transform: rotateY(90deg) translateZ(calc(var(--w) / 2));
+  background:
+    repeating-linear-gradient(180deg, #efe6d3 0 1.5px, #cfc2a6 1.5px 3px);
+  box-shadow: inset 0 0 16px rgb(0 0 0 / 0.35);
+  border-radius: 2px;
+}
+
+.face.top,
+.face.bottom {
+  width: var(--w);
+  height: var(--d);
+  top: calc((var(--h) - var(--d)) / 2);
+  background: repeating-linear-gradient(90deg, #f1e8d6 0 1.5px, #d2c5a9 1.5px 3px);
+}
+
+.face.top {
+  transform: rotateX(90deg) translateZ(calc(var(--h) / 2));
+  box-shadow: inset 0 0 14px rgb(0 0 0 / 0.3);
+}
+
+.face.bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--h) / 2));
+  filter: brightness(0.7);
+}
+
+/* Reading ribbon for books in progress. */
+.ribbon {
+  position: absolute;
+  top: -6px;
+  inset-inline-start: 50%;
+  width: 7px;
+  height: 34px;
+  margin-inline-start: -3.5px;
+  background: linear-gradient(180deg, #d7443c, #97231f);
+  border-radius: 1px;
+  transform: translateZ(calc(var(--d) / 2 + 0.5px));
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.4);
+}
+
+.ribbon::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  border-inline: 3.5px solid transparent;
+  border-top: 5px solid #97231f;
+}
+
+/* Small progress pip on the spine. */
+.spine-progress {
+  position: absolute;
+  bottom: 5%;
+  inset-inline: 22%;
+  height: 3px;
+  border-radius: 99px;
+  background: rgb(0 0 0 / 0.35);
+  overflow: hidden;
+}
+
+.spine-progress i {
+  display: block;
+  height: 100%;
+  background: var(--spine-foil);
+}
+
+.favorite-star {
+  position: absolute;
+  top: 6%;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: var(--spine-foil);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------- grid view */
+
+.cover-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 28px 22px;
+  padding: 16px 22px 60px;
+}
+
+.cover-card {
+  cursor: pointer;
+  perspective: 900px;
+}
+
+.cover-card .cover-wrap {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: 4px 8px 8px 4px;
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  transform-style: preserve-3d;
+  background: var(--panel-2);
+}
+
+.cover-card:hover .cover-wrap {
+  transform: rotateY(-14deg) translateZ(14px) scale(1.03);
+  box-shadow: var(--shadow-2);
+}
+
+.cover-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Spine hint down the binding edge. */
+.cover-card .cover-wrap::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 10px;
+  background: linear-gradient(90deg, rgb(0 0 0 / 0.45), rgb(255 255 255 / 0.12) 60%, transparent);
+  z-index: 2;
+}
+
+.cover-card .badge {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+  z-index: 3;
+  background: rgb(10 6 3 / 0.75);
+  color: #ffd9a8;
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 99px;
+  letter-spacing: 0.04em;
+}
+
+.cover-card .bar {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 4px;
+  background: rgb(0 0 0 / 0.4);
+}
+
+.cover-card .bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.cover-card h3 {
+  margin: 10px 2px 2px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cover-card p {
+  margin: 0 2px;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------- list view */
+
+.book-list {
+  padding: 12px 22px 60px;
+  display: grid;
+  gap: 6px;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-m);
+  cursor: pointer;
+  transition: background 0.15s var(--ease);
+  border: 1px solid transparent;
+}
+
+.list-row:hover {
+  background: rgb(255 255 255 / 0.05);
+  border-color: var(--line);
+}
+
+.list-row img {
+  width: 38px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex: none;
+  box-shadow: var(--shadow-1);
+}
+
+.list-row .grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.list-row h3 {
+  margin: 0;
+  font-size: 14.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-row .pct {
+  font-size: 12px;
+  color: var(--muted);
+  width: 44px;
+  text-align: end;
+}
+
+/* ------------------------------------------------- empty & dropzone */
+
+.empty-state {
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  padding: 80px 24px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-state h2 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.empty-state p {
+  margin: 0;
+  max-width: 380px;
+  line-height: 1.7;
+}
+
+.empty-illu {
+  width: 130px;
+  height: 90px;
+  opacity: 0.55;
+}
+
+.dropzone-hint {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  background: rgb(10 6 3 / 0.75);
+  backdrop-filter: blur(6px);
+  font-size: 19px;
+  color: var(--accent-soft);
+  border: 3px dashed var(--accent);
+  pointer-events: none;
+  animation: fadeIn 0.16s var(--ease);
+}
+
+/* --------------------------------------------------- detail overlay */
+
+.detail-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 46px;
+  padding: 40px;
+  background: radial-gradient(circle at 50% 30%, rgb(60 38 22 / 0.72), rgb(6 4 2 / 0.94) 70%);
+  backdrop-filter: blur(14px);
+  animation: fadeIn 0.25s var(--ease);
+  perspective: 1800px;
+}
+
+.detail-stage.closing {
+  animation: fadeOut 0.25s var(--ease) forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+
+.detail-book-holder {
+  flex: none;
+  perspective: 1800px;
+  perspective-origin: 50% 45%;
+  filter: drop-shadow(0 40px 50px rgb(0 0 0 / 0.6));
+}
+
+.detail-book-holder .book3d {
+  position: relative;
+  left: 0;
+  transform: rotateY(90deg);
+  cursor: grab;
+  transition: transform 0.9s var(--ease-out-back);
+}
+
+.detail-book-holder.revealed .book3d {
+  transform: rotateY(-24deg) rotateX(4deg);
+}
+
+.detail-book-holder.dragging .book3d {
+  transition: none;
+  cursor: grabbing;
+}
+
+/* Cover swings open on its hinge just before the reader appears. */
+.detail-book-holder.opening .book3d {
+  transform: rotateY(-14deg) rotateX(2deg) scale(1.04);
+  transition: transform 0.5s var(--ease);
+}
+
+.detail-book-holder.opening .face.front {
+  transform-origin: left center;
+  transform: translateZ(calc(var(--d) / 2)) rotateY(-155deg);
+  transition: transform 0.75s var(--ease);
+  box-shadow: 12px 0 40px rgb(0 0 0 / 0.45);
+}
+
+.detail-book-holder .inner-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--w);
+  height: var(--h);
+  transform: translateZ(calc(var(--d) / 2 - 2px));
+  background: linear-gradient(100deg, #efe4cd, #fbf5e8 30%, #f3e9d6);
+  border-radius: 2px 5px 5px 2px;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease) 0.25s;
+  box-shadow: inset 22px 0 32px rgb(120 92 54 / 0.35);
+}
+
+.detail-book-holder.opening .inner-page {
+  opacity: 1;
+}
+
+.detail-info {
+  width: min(430px, 42vw);
+  color: var(--ink);
+  animation: infoIn 0.5s var(--ease) 0.12s backwards;
+}
+
+@keyframes infoIn {
+  from { opacity: 0; transform: translateY(20px); }
+}
+
+.detail-info h2 {
+  margin: 0 0 6px;
+  font-size: 27px;
+  line-height: 1.3;
+  font-family: 'Amiri', Georgia, serif;
+}
+
+.detail-info .author {
+  color: var(--accent-soft);
+  font-size: 15px;
+  margin: 0 0 18px;
+}
+
+.detail-info .desc {
+  max-height: 130px;
+  overflow: auto;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.75;
+  margin-bottom: 16px;
+  padding-inline-end: 8px;
+}
+
+.detail-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+  padding: 14px 0;
+  border-block: 1px solid var(--line);
+}
+
+.detail-meta div {
+  min-width: 0;
+}
+
+.detail-meta dt {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.detail-meta dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.detail-close {
+  position: absolute;
+  top: 20px;
+  inset-inline-end: 22px;
+  z-index: 5;
+}
+
+.detail-hint {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0.75;
+}
+
+@media (max-width: 900px) {
+  .lib-side { display: none; }
+  .detail-stage { flex-direction: column; gap: 22px; padding: 24px; overflow: auto; }
+  .detail-info { width: min(520px, 100%); }
+  .detail-book-holder { transform: scale(0.8); }
+}

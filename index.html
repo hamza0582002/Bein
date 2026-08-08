@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1b1410" />
+    <meta name="description" content="Bein — قارئ كتب احترافي بمكتبة ثلاثية الأبعاد تحاكي رفوف المكتبة الواقعية" />
+    <title>Bein — مكتبتي</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="./icon-192.png" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c2703a'/%3E%3Crect x='7' y='6' width='5' height='20' rx='1' fill='%23fdf6ec'/%3E%3Crect x='13.5' y='6' width='5' height='20' rx='1' fill='%23f0d9b5'/%3E%3Crect x='20' y='6' width='5' height='20' rx='1' fill='%23fdf6ec'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/components.css" />
+    <link rel="stylesheet" href="./src/styles/library.css" />
+    <link rel="stylesheet" href="./src/styles/reader.css" />
+  </head>
+  <body>
+    <div id="app" aria-busy="true">
+      <div class="boot">
+        <div class="boot-books" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <p>جارٍ فتح المكتبة…</p>
+      </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

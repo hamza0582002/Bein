@@ -1,0 +1,57 @@
+/** Inline SVG icon set (stroke based, 24×24 grid). */
+
+const svg = (paths, extra = '') =>
+  `<svg viewBox="0 0 24 24" aria-hidden="true" ${extra}>${paths}</svg>`;
+
+export const icons = {
+  logo: svg('<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v18H6.5A2.5 2.5 0 0 1 4 18.5z"/><path d="M13 3h4.5A2.5 2.5 0 0 1 20 5.5v13a2.5 2.5 0 0 1-2.5 2.5H13z"/>'),
+  search: svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/>'),
+  plus: svg('<path d="M12 5v14M5 12h14"/>'),
+  minus: svg('<path d="M5 12h14"/>'),
+  shelf: svg('<path d="M3 20h18"/><rect x="5" y="6" width="3" height="11" rx="1"/><rect x="10" y="4" width="3" height="13" rx="1"/><rect x="15" y="8" width="4" height="9" rx="1"/>'),
+  grid: svg('<rect x="3" y="3" width="7" height="8" rx="1"/><rect x="14" y="3" width="7" height="8" rx="1"/><rect x="3" y="13" width="7" height="8" rx="1"/><rect x="14" y="13" width="7" height="8" rx="1"/>'),
+  list: svg('<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>'),
+  star: svg('<path d="m12 3.6 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.8l5.9-.9z"/>'),
+  book: svg('<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H19v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 1 5.5 18H19v3H5.5A1.5 1.5 0 0 1 4 19.5z"/>'),
+  bookOpen: svg('<path d="M12 6.5C10.5 5 8.4 4.3 4 4.5v13c4.4-.2 6.5.5 8 2 1.5-1.5 3.6-2.2 8-2v-13c-4.4-.2-6.5.5-8 2z"/><path d="M12 6.5v13"/>'),
+  chart: svg('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'),
+  gear: svg('<circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>'),
+  chevronLeft: svg('<path d="m15 5-7 7 7 7"/>'),
+  chevronRight: svg('<path d="m9 5 7 7-7 7"/>'),
+  chevronDown: svg('<path d="m5 9 7 7 7-7"/>'),
+  x: svg('<path d="M6 6l12 12M18 6 6 18"/>'),
+  contents: svg('<path d="M4 6h16M4 12h16M4 18h10"/>'),
+  bookmark: svg('<path d="M6 4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21l-6-4-6 4z"/>'),
+  note: svg('<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9L14.5 20h-9A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 14.5h-4a1.5 1.5 0 0 0-1.5 1.5v4"/>'),
+  highlighter: svg('<path d="m14 3 7 7-8.5 8.5H8L5 21l-2-2 2.5-3.5v-4.5z"/><path d="m10 7 7 7"/>'),
+  speaker: svg('<path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>'),
+  stop: svg('<rect x="6" y="6" width="12" height="12" rx="2"/>'),
+  play: svg('<path d="M7 4.5v15l13-7.5z"/>'),
+  pause: svg('<path d="M8 4v16M16 4v16"/>'),
+  type: svg('<path d="M4 7V5h16v2M12 5v14M9 19h6"/>'),
+  focus: svg('<path d="M4 9V5h4M20 9V5h-4M4 15v4h4M20 15v4h-4"/>'),
+  expand: svg('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>'),
+  trash: svg('<path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/>'),
+  edit: svg('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m14.5 5.5 4 4"/>'),
+  download: svg('<path d="M12 4v11m0 0-4-4m4 4 4-4"/><path d="M4 18v2h16v-2"/>'),
+  upload: svg('<path d="M12 20V9m0 0-4 4m4-4 4 4"/><path d="M4 6V4h16v2"/>'),
+  check: svg('<path d="m5 12.5 5 5L19 6"/>'),
+  clock: svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 2"/>'),
+  flame: svg('<path d="M12 3s5 4 5 8a5 5 0 0 1-10 0c0-1.4.6-2.7 1.4-3.7.2 1.2.9 2.2 1.8 2.2 1 0 1.5-.9 1.3-2.2C11.2 5.8 12 3 12 3z"/>'),
+  target: svg('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>'),
+  home: svg('<path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/>'),
+  arrowBack: svg('<path d="M20 12H4m0 0 6-6m-6 6 6 6"/>'),
+  arrowBackRtl: svg('<path d="M4 12h16m0 0-6-6m6 6-6 6"/>'),
+  copy: svg('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/>'),
+  layers: svg('<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>'),
+  sun: svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+  folder: svg('<path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
+  info: svg('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/>'),
+  keyboard: svg('<rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/>'),
+  zoomIn: svg('<circle cx="11" cy="11" r="7"/><path d="M11 8.5v5M8.5 11h5M20 20l-3.2-3.2"/>'),
+  zoomOut: svg('<circle cx="11" cy="11" r="7"/><path d="M8.5 11h5M20 20l-3.2-3.2"/>'),
+  fitWidth: svg('<path d="M3 12h18m0 0-4-4m4 4-4 4M3 12l4-4m-4 4 4 4"/>'),
+};
+
+/** Convenience for interpolating an icon into an HTML string. */
+export const icon = (name) => icons[name] || '';
