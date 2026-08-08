@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Maktabate</string>
+    <string name="title_activity_main">Maktabate</string>
+    <string name="package_name">com.maktabate.reader</string>
+    <string name="custom_url_scheme">com.maktabate.reader</string>
+</resources>

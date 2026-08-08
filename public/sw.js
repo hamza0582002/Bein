@@ -1,11 +1,11 @@
 /**
- * Offline shell for Bein.
+ * Offline shell for Maktabate.
  *
  * Books live in IndexedDB, so only the application itself needs caching:
  * everything that is fetched is stored and served cache-first afterwards.
  */
 
-const CACHE = 'bein-shell-v1';
+const CACHE = 'maktabate-shell-v1';
 const CORE = ['./', './index.html', './manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {

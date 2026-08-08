@@ -2,7 +2,7 @@
 
 const strings = {
   ar: {
-    appName: 'Bein',
+    appName: 'Maktabate',
     tagline: 'مكتبتك، كما لو كانت على الرفّ',
 
     // Library chrome
@@ -181,7 +181,7 @@ const strings = {
   },
 
   en: {
-    appName: 'Bein',
+    appName: 'Maktabate',
     tagline: 'Your library, as if it were on the shelf',
 
     library: 'Library',

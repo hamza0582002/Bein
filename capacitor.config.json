@@ -1,0 +1,12 @@
+{
+  "appId": "com.maktabate.reader",
+  "appName": "Maktabate",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#170F0AFF"
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

@@ -146,7 +146,7 @@ export async function importFile(file, { onProgress } = {}) {
         ? await (await loadPdfAdapter())(file)
         : await openText(file, file.name);
   } catch (error) {
-    console.error('[bein] import failed', error);
+    console.error('[maktabate] import failed', error);
     return { error: error?.message || 'importFailed' };
   }
 

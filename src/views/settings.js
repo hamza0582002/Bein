@@ -72,7 +72,7 @@ export async function openSettings() {
                 const stamp = new Date().toISOString().slice(0, 10);
                 downloadBlob(
                   new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }),
-                  `bein-backup-${stamp}.json`
+                  `maktabate-backup-${stamp}.json`
                 );
               },
             },
@@ -138,7 +138,7 @@ export async function openSettings() {
         el('p', {
           class: 'tiny muted',
           style: { lineHeight: '1.8' },
-          text: 'Bein — قارئ كتب يعمل بالكامل داخل جهازك: لا يُرفع أي كتاب أو ملاحظة إلى أي خادم. يدعم EPUB و PDF و TXT و Markdown.',
+          text: 'Maktabate — قارئ كتب يعمل بالكامل داخل جهازك: لا يُرفع أي كتاب أو ملاحظة إلى أي خادم. يدعم EPUB و PDF و TXT و Markdown.',
         })
       );
     },

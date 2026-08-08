@@ -8,7 +8,7 @@
  *   settings     — key/value app preferences
  */
 
-const DB_NAME = 'bein-library';
+const DB_NAME = 'maktabate-library';
 const DB_VERSION = 1;
 
 let dbPromise = null;
@@ -134,7 +134,7 @@ export async function exportBackup() {
       })
   );
   return {
-    app: 'bein-reader',
+    app: 'maktabate-reader',
     version: 1,
     exportedAt: Date.now(),
     books: books.map(({ file, cover, ...rest }) => rest),
@@ -146,7 +146,7 @@ export async function exportBackup() {
 
 /** Restore annotations/progress/settings; book files are matched by id. */
 export async function importBackup(payload) {
-  if (!payload || payload.app !== 'bein-reader') throw new Error('ملف نسخة احتياطية غير صالح');
+  if (!payload || payload.app !== 'maktabate-reader') throw new Error('ملف نسخة احتياطية غير صالح');
   const report = { books: 0, annotations: 0, sessions: 0 };
 
   for (const incoming of payload.books || []) {

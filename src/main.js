@@ -29,7 +29,7 @@ async function seedLibrary() {
   try {
     await importFile(welcomeFile());
   } catch (error) {
-    console.warn('[bein] could not seed the library', error);
+    console.warn('[maktabate] could not seed the library', error);
   }
   await setSetting('seeded', true);
 }
@@ -59,7 +59,7 @@ async function openBook(book) {
     fill(app, reader.element);
     document.title = `${book.title} — ${t('appName')}`;
   } catch (error) {
-    console.error('[bein] could not open the book', error);
+    console.error('[maktabate] could not open the book', error);
     toast(`${t('importFailed')}: ${error?.message || error}`, { duration: 6000 });
     showLibrary();
   }
@@ -101,7 +101,7 @@ async function start() {
 }
 
 start().catch((error) => {
-  console.error('[bein] startup failed', error);
+  console.error('[maktabate] startup failed', error);
   fill(app, 
     el(
       'div',

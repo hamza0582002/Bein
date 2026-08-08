@@ -461,7 +461,7 @@ export async function createReaderView({ book: initialBook, onExit }) {
           return mark;
         });
       } catch (error) {
-        console.warn('[bein] could not apply highlight', error);
+        console.warn('[maktabate] could not apply highlight', error);
       }
     }
   }
@@ -1198,7 +1198,7 @@ export async function createReaderView({ book: initialBook, onExit }) {
       entry.wrapper.style.width = `${size.width}px`;
       entry.rendered = true;
     } catch (error) {
-      console.warn('[bein] pdf render failed', error);
+      console.warn('[maktabate] pdf render failed', error);
     } finally {
       entry.rendering = false;
     }
