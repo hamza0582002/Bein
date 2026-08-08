@@ -124,13 +124,11 @@ export function createLibraryView({ onOpenBook, onShowStats, onShowSettings }) {
         });
     if (!chosen.length) return;
 
-    const dismiss = toast(`${t('importing')} (0/${chosen.length})`, { duration: 999000 });
-    let done = 0;
+    const dismiss = toast(`${t('importing')} (${chosen.length})`, { duration: 999000 });
     const added = [];
 
     await importFiles(chosen, {
       onResult: (result, file) => {
-        done += 1;
         if (result.book) added.push(result.book);
         else if (result.duplicate) toast(`${t('duplicateBook')}: ${result.duplicate.title}`);
         else toast(`${t('importFailed')}: ${file.name} — ${t(result.error) || result.error}`, { duration: 5000 });

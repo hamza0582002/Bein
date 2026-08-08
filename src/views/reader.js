@@ -194,7 +194,6 @@ export async function createReaderView({ book: initialBook, onExit }) {
   /* ============================================================ paging */
 
   const paginator = createPaginator({
-    spread,
     pager,
     inner,
     flipLayer,

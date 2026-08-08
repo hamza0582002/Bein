@@ -10,7 +10,7 @@
 
 import { clamp, el } from '../core/utils.js';
 
-export function createPaginator({ spread, pager, inner, flipLayer, onPageChange }) {
+export function createPaginator({ pager, inner, flipLayer, onPageChange }) {
   let rtl = false;
   let columns = 2;
   let stride = 1;
@@ -142,7 +142,6 @@ export function createPaginator({ spread, pager, inner, flipLayer, onPageChange 
 
     animating = true;
     const oldClone = cloneSpread();
-    const previousPage = page;
     page = clamp(target, 0, pageCount - 1);
     apply(false);
     const newClone = cloneSpread();
@@ -267,7 +266,6 @@ export function createPaginator({ spread, pager, inner, flipLayer, onPageChange 
     await animation.finished.catch(() => {});
     flipLayer.replaceChildren();
     animating = false;
-    void previousPage;
     return true;
   }
 
