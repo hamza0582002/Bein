@@ -87,10 +87,22 @@ export function applyTheme() {
   root.style.setProperty('--reader-font', FONT_STACKS[settings.fontFamily] || FONT_STACKS['serif-ar']);
   root.style.setProperty('--reader-size', `${settings.fontSize}px`);
   root.style.setProperty('--reader-leading', settings.lineHeight);
-  root.style.setProperty('--reader-margin', `${settings.margin}px`);
+  // A 46px margin is generous on a laptop and absurd on a 360px phone, so the
+  // chosen value is capped at a share of the viewport.
+  const margin = Math.max(14, Math.min(settings.margin, window.innerWidth * 0.09));
+  root.style.setProperty('--reader-margin', `${Math.round(margin)}px`);
   root.style.setProperty('--reader-align', settings.justify ? 'justify' : 'start');
   root.style.setProperty('--screen-brightness', settings.brightness / 100);
   root.style.setProperty('--screen-warmth', settings.warmth / 100);
+}
+
+// The margin cap depends on the viewport, so re-apply it when that changes.
+if (typeof window !== 'undefined') {
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(applyTheme, 150);
+  });
 }
 
 export function resetSettings() {

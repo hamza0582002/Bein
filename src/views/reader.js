@@ -18,6 +18,7 @@ import { openSource } from '../formats/index.js';
 import { icons } from '../ui/icons.js';
 import { toast } from '../ui/feedback.js';
 import { playPageTurn } from '../core/sound.js';
+import { pushBackHandler } from '../core/back.js';
 import { createPaginator } from './paginator.js';
 import { buildAppearanceSheet } from './appearance.js';
 import { createSpeaker, speechSupported, whenVoicesReady } from './tts.js';
@@ -80,6 +81,7 @@ export async function createReaderView({ book: initialBook, onExit }) {
     root.classList.toggle('focus');
     focusButton.classList.toggle('active', root.classList.contains('focus'));
   });
+  if (window.matchMedia('(pointer: coarse)').matches) focusButton.classList.add('mobile-hide');
 
   const topBar = el(
     'header',
@@ -90,11 +92,11 @@ export async function createReaderView({ book: initialBook, onExit }) {
     btn('contents', t('contents'), () => togglePanel('toc')),
     btn('search', t('searchInBook'), () => togglePanel('search')),
     bookmarkButton,
-    btn('note', t('notes'), () => togglePanel('notes')),
+    btn('note', t('notes'), () => togglePanel('notes'), 'mobile-hide'),
     speechSupported() ? ttsButton : null,
     btn('type', t('appearance'), () => toggleSheet()),
     focusButton,
-    btn('expand', t('fullscreen'), () => toggleFullscreen())
+    btn('expand', t('fullscreen'), () => toggleFullscreen(), 'mobile-hide')
   );
 
   const inner = el('div', { class: 'pager-inner' });
@@ -133,7 +135,11 @@ export async function createReaderView({ book: initialBook, onExit }) {
   );
 
   const pageLabel = el('span', { class: 'pageno', text: '—' });
-  const chapterLabel = el('span', { class: 'pageno', style: { opacity: '.75' }, text: '' });
+  const chapterLabel = el('span', {
+    class: 'pageno chapter-label',
+    style: { opacity: '.75' },
+    text: '',
+  });
   const progressFill = el('i', { style: { width: '0%' } });
   const progressKnob = el('span', { class: 'knob', style: { insetInlineStart: '0%' } });
   const progressBar = el(
@@ -1451,6 +1457,32 @@ export async function createReaderView({ book: initialBook, onExit }) {
     });
   }
 
+  // Android back: peel off whatever is open, and only then leave the book.
+  const releaseBack = pushBackHandler(() => {
+    if (selectionMenu) {
+      hideSelectionMenu();
+      return true;
+    }
+    if (panel.classList.contains('open')) {
+      closePanel();
+      return true;
+    }
+    if (sheet.classList.contains('open')) {
+      sheet.classList.remove('open');
+      return true;
+    }
+    if (speaker.speaking) {
+      stopSpeech();
+      return true;
+    }
+    if (root.classList.contains('focus')) {
+      focusButton.click();
+      return true;
+    }
+    exit();
+    return true;
+  });
+
   async function exit() {
     await saveProgress.flush?.();
     saveProgress();
@@ -1460,6 +1492,7 @@ export async function createReaderView({ book: initialBook, onExit }) {
   }
 
   function destroy() {
+    releaseBack();
     document.removeEventListener('keydown', onKeyDown);
     window.removeEventListener('resize', onResize);
     spread.removeEventListener('scroll', scrollProgress);

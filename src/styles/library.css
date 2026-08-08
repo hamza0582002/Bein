@@ -906,3 +906,95 @@
   .detail-info { width: min(520px, 100%); }
   .detail-book-holder { transform: scale(0.8); }
 }
+
+/* ------------------------------------------------------------ phones */
+
+@media (max-width: 760px) {
+  /* The header wraps instead of pushing controls off the screen, and it
+     clears the status bar that Android draws over the app. */
+  .lib-header {
+    height: auto;
+    min-height: 58px;
+    flex-wrap: wrap;
+    row-gap: 8px;
+    padding: max(var(--safe-top), 8px) max(var(--safe-right), 10px) 8px
+      max(var(--safe-left), 10px);
+  }
+
+  .brand small {
+    display: none;
+  }
+
+  .brand {
+    font-size: 16px;
+  }
+
+  /* Search drops to its own row, together with the whole view switcher —
+     the basis is small enough that all three icons stay on that row. */
+  .lib-search {
+    order: 10;
+    flex: 1 1 130px;
+    max-width: none;
+  }
+
+  .lib-header .icon-btn[data-view] {
+    order: 11;
+    flex: none;
+  }
+
+  .shelf-books {
+    min-height: 200px;
+    padding: 0 10px;
+  }
+
+  .shelf {
+    margin-bottom: 18px;
+  }
+
+  .lib-toolbar {
+    padding: 12px 14px 4px;
+  }
+
+  .shelves,
+  .cover-grid,
+  .book-list,
+  .continue-strip {
+    padding-inline: max(var(--safe-left), 12px) max(var(--safe-right), 12px);
+  }
+
+  .shelves,
+  .cover-grid,
+  .book-list {
+    padding-bottom: calc(40px + var(--safe-bottom));
+  }
+
+  .cover-grid {
+    grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+    gap: 20px 14px;
+  }
+
+  .continue-card {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .detail-stage {
+    padding: max(var(--safe-top), 18px) 18px calc(18px + var(--safe-bottom));
+  }
+
+  .detail-info h2 {
+    font-size: 22px;
+  }
+
+  .detail-actions .btn {
+    flex: 1 1 46%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Only the mark survives, so the Add button always has room. */
+  .brand .name {
+    display: none;
+  }
+}

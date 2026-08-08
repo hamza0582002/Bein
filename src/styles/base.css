@@ -24,6 +24,13 @@
 
   --header-h: 62px;
 
+  /* Device safe areas. Android 15+ draws the app edge-to-edge, so the status
+     and navigation bars sit on top of the page unless we pad for them. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
   /* Reader typography — kept in sync from src/core/state.js */
   --reader-font: 'Amiri', Georgia, serif;
   --reader-size: 20px;

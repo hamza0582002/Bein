@@ -3,6 +3,7 @@
 import { el, fill, mount } from '../core/utils.js';
 import { t } from '../core/i18n.js';
 import { icons } from './icons.js';
+import { pushBackHandler } from '../core/back.js';
 
 let stack = null;
 
@@ -62,9 +63,15 @@ export function modal({ title, render, footer, width, onClose }) {
   const overlay = el('div', { class: 'overlay', role: 'dialog', 'aria-modal': 'true' });
   const box = el('div', { class: 'modal', style: width ? { width } : undefined });
 
+  const releaseBack = pushBackHandler(() => {
+    close(null);
+    return true;
+  });
+
   const close = (result) => {
     overlay.remove();
     document.removeEventListener('keydown', onKey);
+    releaseBack();
     onClose?.(result);
   };
 

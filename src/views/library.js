@@ -66,7 +66,12 @@ export function createLibraryView({ onOpenBook, onShowStats, onShowSettings }) {
       'div',
       { class: 'brand' },
       el('span', { class: 'mark', html: icons.logo }),
-      el('div', {}, el('div', { text: t('appName') }), el('small', { text: t('tagline') }))
+      el(
+        'div',
+        { class: 'name' },
+        el('div', { text: t('appName') }),
+        el('small', { text: t('tagline') })
+      )
     ),
     el('div', { class: 'lib-search' }, searchInput, el('span', { html: icons.search })),
     el('div', { class: 'spacer' }),

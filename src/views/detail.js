@@ -9,6 +9,7 @@ import { clamp, el, fill, formatBytes, formatDate, formatDuration, mount } from 
 import { buildBook3D, shelfSize } from '../ui/book3d.js';
 import { icons } from '../ui/icons.js';
 import { playBookOpen } from '../core/sound.js';
+import { pushBackHandler } from '../core/back.js';
 
 const WORDS_PER_MINUTE = 210;
 
@@ -191,6 +192,8 @@ export function openDetail(book, { onRead, onClose, onChange, onEdit, onDelete }
     holder.classList.add('opening');
     playBookOpen();
     setTimeout(() => {
+      document.removeEventListener('keydown', onKey);
+      releaseBack();
       stage.classList.add('closing');
       setTimeout(() => stage.remove(), 240);
       onRead?.(current);
@@ -199,10 +202,16 @@ export function openDetail(book, { onRead, onClose, onChange, onEdit, onDelete }
 
   function close() {
     document.removeEventListener('keydown', onKey);
+    releaseBack();
     stage.classList.add('closing');
     setTimeout(() => stage.remove(), 240);
     onClose?.();
   }
+
+  const releaseBack = pushBackHandler(() => {
+    close();
+    return true;
+  });
 
   const onKey = (event) => {
     if (event.key === 'Escape') close();

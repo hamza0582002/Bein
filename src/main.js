@@ -10,6 +10,7 @@ import { createReaderView } from './views/reader.js';
 import { openStats } from './views/stats.js';
 import { openSettings } from './views/settings.js';
 import { toast } from './ui/feedback.js';
+import { installBackButton, runBack } from './core/back.js';
 import { welcomeFile } from './welcome-book.js';
 
 const app = document.getElementById('app');
@@ -83,6 +84,10 @@ async function start() {
   await seedLibrary();
   showLibrary();
   bindGlobalKeys();
+  installBackButton();
+  // Exposed so the Android bridge and browser tests can exercise the same
+  // back stack the hardware button uses.
+  window.__maktabateBack = runBack;
   app.removeAttribute('aria-busy');
 
   // Language changes rebuild the whole library UI.

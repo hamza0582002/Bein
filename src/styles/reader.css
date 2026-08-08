@@ -810,8 +810,54 @@ mark.search-hit.current {
 }
 
 @media (max-width: 760px) {
-  .reader-stage { padding: 10px 8px; }
+  .reader-stage {
+    padding: 10px max(var(--safe-left), 6px) 10px max(var(--safe-right), 6px);
+  }
+
   .reader[data-layout='double'] .spread { max-width: 100%; }
   .edge-tap { width: 40px; }
-  .reader-top, .reader-bottom { padding: 0 8px; }
+
+  /* Clear the status and navigation bars, and give the row room to breathe. */
+  .reader-top {
+    height: auto;
+    min-height: 56px;
+    padding: max(var(--safe-top), 6px) max(var(--safe-right), 6px) 6px
+      max(var(--safe-left), 6px);
+    gap: 2px;
+  }
+
+  .reader-bottom {
+    height: auto;
+    min-height: 52px;
+    padding: 6px max(var(--safe-right), 12px) calc(6px + var(--safe-bottom))
+      max(var(--safe-left), 12px);
+    gap: 10px;
+  }
+
+  /* Too many controls for one phone row: these live elsewhere on mobile.
+     Notes and bookmarks are tabs inside the drawer, and an installed app is
+     already fullscreen. */
+  .reader-top .mobile-hide {
+    display: none;
+  }
+
+  .reader-title span {
+    display: none;
+  }
+
+  .reader-bottom .chapter-label {
+    display: none;
+  }
+
+  .reader-sheet {
+    padding: 16px 16px calc(20px + var(--safe-bottom));
+  }
+
+  .side-panel {
+    padding-top: var(--safe-top);
+  }
+
+  .tts-bar {
+    bottom: calc(66px + var(--safe-bottom));
+  }
 }
