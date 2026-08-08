@@ -55,7 +55,7 @@ npm run build      # نسخة إنتاج في dist/
 npm run preview    # معاينة نسخة الإنتاج
 ```
 
-المتطلبات: Node.js 18 فأحدث. لتوليد الأيقونات من جديد تحتاج Python مع Pillow
+المتطلبات: Node.js 20 فأحدث لتشغيل الويب، و22 فأحدث لأدوات Capacitor. لتوليد الأيقونات من جديد تحتاج Python مع Pillow
 (`pip install pillow`) ثم `npm run icons`.
 
 ---

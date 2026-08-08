@@ -63,6 +63,10 @@ export function buildBook3D(book, { width, height, depth, showCover = true }) {
     );
   }
 
+  // A ribbon marks books that are part-way read. It lives on the spine so it
+  // stays visible while the book is shelved.
+  if (percent > 0 && percent < 100) spine.append(el('div', { class: 'ribbon' }));
+
   node.append(
     front,
     el('div', { class: 'face back' }),
@@ -71,9 +75,6 @@ export function buildBook3D(book, { width, height, depth, showCover = true }) {
     el('div', { class: 'face top' }),
     el('div', { class: 'face bottom' })
   );
-
-  // A ribbon marks books that are part-way read.
-  if (percent > 0 && percent < 100) node.append(el('div', { class: 'ribbon' }));
 
   return node;
 }

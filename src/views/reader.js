@@ -699,9 +699,16 @@ export async function createReaderView({ book: initialBook, onExit }) {
   function openNoteEditor(annotation) {
     openPanel('notes');
     setTimeout(() => {
-      const card = panelBody.querySelector(`[data-note-id="${annotation.id}"] textarea`);
-      card?.focus({ preventScroll: true });
-    }, 60);
+      const card = panelBody.querySelector(`[data-note-id="${annotation.id}"]`);
+      if (!card) return;
+      const field = card.querySelector('textarea');
+      if (field) {
+        field.style.display = 'block';
+        field.focus({ preventScroll: true });
+      }
+      // Bring the card into view inside the drawer, never by scrolling the app.
+      panelBody.scrollTop = card.offsetTop - 12;
+    }, 80);
   }
 
   /* --------------------------------------------------------- panels */
